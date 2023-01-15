@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.karla</groupId>
-    <artifactId>greetingapi</artifactId>
+    <artifactId>greeting-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>greetingapi</name>
-    <description>greetingapi</description>
+    <name>greeting-api</name>
+    <description>greeting-api</description>
     <properties>
         <java.version>17</java.version>
     </properties>
