@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import java.util.Date;
 
 
-@ControllerAdvice // faz com que todos os
+@ControllerAdvice
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+    // Tratamento de exceções genéricas (Exception)
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handleAllExceptions (Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = new ExceptionResponse(
@@ -27,6 +27,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // Tratamento de exceções UnsupportedMathOperationException
     @ExceptionHandler(UnsupportedMathOperationException.class)
     public final ResponseEntity<ExceptionResponse> handleBadRequestException (Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = new ExceptionResponse(
