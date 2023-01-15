@@ -1,7 +1,10 @@
-package br.com.karla.calculatorapi;
+package br.com.karla.calculatorapi.controllers;
 
 import br.com.karla.calculatorapi.exceptions.UnsupportedMathOperationException;
+import br.com.karla.calculatorapi.math.Arithmetic;
 import org.springframework.web.bind.annotation.*;
+import static br.com.karla.calculatorapi.helpers.Conversion.convertToDouble;
+import static br.com.karla.calculatorapi.helpers.Validation.isNumeric;
 
 @RestController
 public class CalculatorController {
@@ -12,11 +15,13 @@ public class CalculatorController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws Exception {
 
-        if (!validateNumbers(firstNumber, secondNumber)){
+        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
             throw new UnsupportedMathOperationException("Please insert only numeric values.");
         }
 
-        return convertToDouble(firstNumber) + convertToDouble(secondNumber);
+        Arithmetic arithmetic = new Arithmetic();
+
+        return arithmetic.sum(convertToDouble(firstNumber), convertToDouble(secondNumber));
     }
 
     @RequestMapping(value = "/subtract/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
@@ -25,11 +30,13 @@ public class CalculatorController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws Exception {
 
-        if (!validateNumbers(firstNumber, secondNumber)){
+        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
             throw new UnsupportedMathOperationException("Please insert only numeric values.");
         }
 
-        return convertToDouble(firstNumber) - convertToDouble(secondNumber);
+        Arithmetic arithmetic = new Arithmetic();
+
+        return arithmetic.subtract(convertToDouble(firstNumber), convertToDouble(secondNumber));
     }
 
     @RequestMapping(value = "/multiply/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
@@ -38,11 +45,13 @@ public class CalculatorController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws Exception {
 
-        if (!validateNumbers(firstNumber, secondNumber)){
+        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
             throw new UnsupportedMathOperationException("Please insert only numeric values.");
         }
 
-        return convertToDouble(firstNumber) * convertToDouble(secondNumber);
+        Arithmetic arithmetic = new Arithmetic();
+
+        return arithmetic.multiply(convertToDouble(firstNumber), convertToDouble(secondNumber));
     }
 
     @RequestMapping(value = "/divide/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
@@ -51,11 +60,13 @@ public class CalculatorController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws Exception {
 
-        if (!validateNumbers(firstNumber, secondNumber)){
+        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
             throw new UnsupportedMathOperationException("Please insert only numeric values.");
         }
 
-        return convertToDouble(firstNumber) / convertToDouble(secondNumber);
+        Arithmetic arithmetic = new Arithmetic();
+
+        return arithmetic.divide(convertToDouble(firstNumber), convertToDouble(secondNumber));
     }
 
     @RequestMapping(value = "/average/{firstNumber}/{secondNumber}", method = RequestMethod.GET)
@@ -64,7 +75,7 @@ public class CalculatorController {
             @PathVariable(value = "secondNumber") String secondNumber
     ) throws Exception {
 
-        if (!validateNumbers(firstNumber, secondNumber)){
+        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
             throw new UnsupportedMathOperationException("Please insert only numeric values.");
         }
 
@@ -88,24 +99,5 @@ public class CalculatorController {
     }
 
 
-    private boolean validateNumbers (String firstNumber, String secondNumber) {
-        if (firstNumber == null || secondNumber == null){
-            return false;
-        }
-
-        if (!isNumeric(firstNumber) || !isNumeric(secondNumber)){
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isNumeric (String number){
-        return number.replaceAll(",", ".").matches("[-+]?[0-9]*\\.?[0-9]+");
-    }
-
-    private double convertToDouble (String number){
-        return Double.parseDouble(number.replaceAll(",", "."));
-    }
 
 }
