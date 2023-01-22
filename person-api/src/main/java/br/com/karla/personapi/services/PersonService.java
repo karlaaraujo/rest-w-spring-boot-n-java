@@ -2,6 +2,8 @@ package br.com.karla.personapi.services;
 
 import br.com.karla.personapi.model.Person;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
@@ -14,15 +16,47 @@ public class PersonService {
     public Person findById(String id){
         logger.info("Finding one person.");
 
+        return mockPerson(counter.incrementAndGet());
+    }
+
+    public List<Person> findAll(){
+        logger.info("Finding all people.");
+
+        List<Person> people = new ArrayList<>();
+
+        for (int i = 0; i < 9 ; i++){
+            people.add(mockPerson(i));
+        }
+
+        return people;
+    }
+
+    public Person create(Person person){
+        logger.info("Creating person.");
+
+        return person;
+    }
+
+    public Person update(Person person){
+        logger.info("Updating person " + person.getId());
+
+        return person;
+    }
+
+    public void delete(String id){
+        logger.info("Deleting person " + id);
+    }
+
+    private Person mockPerson(long id){
+
         Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Karla");
-        person.setLastName("Araújo");
-        person.setAddress("Maceió - AL");
+        person.setId(id);
+        person.setFirstName("First name " + id);
+        person.setLastName("Last name " + id);
+        person.setAddress("State " + id);
         person.setGender("Female");
 
         return person;
-
     }
 
 
