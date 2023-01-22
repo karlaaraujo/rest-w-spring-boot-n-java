@@ -15,27 +15,24 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
-    @RequestMapping(
+    @GetMapping(
             value = "/{id}",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    ) // Swagger exige que 'produces' seja mantido para documentar efetivamente
     public Person findById(@PathVariable(value = "id") Long id) throws Exception {
 
         return service.findById(id);
     }
 
-    @RequestMapping(
+    @GetMapping(
             value = "/all",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Person> findAll() throws Exception {
         return service.findAll();
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
+    @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -44,8 +41,7 @@ public class PersonController {
     }
 
 
-    @RequestMapping(
-            method = RequestMethod.PUT,
+    @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -54,10 +50,7 @@ public class PersonController {
     }
 
 
-    @RequestMapping(
-            value = "/{id}",
-            method = RequestMethod.DELETE
-    )
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Long id) throws Exception {
         service.delete(id);
     }
