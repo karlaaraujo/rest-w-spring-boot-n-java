@@ -1,8 +1,10 @@
 package br.com.karla.personapi.services;
 
+import br.com.karla.personapi.exceptions.ResourceNotFoundException;
 import br.com.karla.personapi.model.Person;
+import br.com.karla.personapi.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
@@ -13,51 +15,48 @@ public class PersonService {
     private final AtomicLong counter = new AtomicLong(); // Mocka ids
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
-    public Person findById(String id){
+    @Autowired
+    private PersonRepository repository;
+
+    public Person findById(long id){
         logger.info("Finding one person.");
 
-        return mockPerson(counter.incrementAndGet());
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for provided ID."));
     }
 
     public List<Person> findAll(){
         logger.info("Finding all people.");
 
-        List<Person> people = new ArrayList<>();
-
-        for (int i = 0; i < 9 ; i++){
-            people.add(mockPerson(i));
-        }
-
-        return people;
+        return repository.findAll();
     }
 
     public Person create(Person person){
         logger.info("Creating person.");
 
-        return person;
+        return repository.save(person);
     }
 
     public Person update(Person person){
-        logger.info("Updating person " + person.getId());
+        logger.info("Updating person.");
 
-        return person;
+        var savedPerson = findById(person.getId());
+
+        savedPerson.setFirstName(person.getFirstName());
+        savedPerson.setLastName(person.getLastName());
+        savedPerson.setAddress(person.getAddress());
+        savedPerson.setGender(person.getGender());
+
+        return repository.save(person);
     }
 
-    public void delete(String id){
+    public void delete(long id){
+
         logger.info("Deleting person " + id);
+
+        var person = findById(id);
+
+        repository.delete(person);
     }
-
-    private Person mockPerson(long id){
-
-        Person person = new Person();
-        person.setId(id);
-        person.setFirstName("First name " + id);
-        person.setLastName("Last name " + id);
-        person.setAddress("State " + id);
-        person.setGender("Female");
-
-        return person;
-    }
-
 
 }
