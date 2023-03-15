@@ -1,60 +1,66 @@
 package br.com.karla.personapi.services;
 
 import br.com.karla.personapi.exceptions.ResourceNotFoundException;
+import br.com.karla.personapi.data.vo.v1.PersonVO;
+import br.com.karla.personapi.mapper.Mapper;
 import br.com.karla.personapi.model.Person;
 import br.com.karla.personapi.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service // Spring trata como objeto que será injetado em runtime em outros objetos
 public class PersonService {
-
-    private final AtomicLong counter = new AtomicLong(); // Mocka ids
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private final Logger logger = Logger.getLogger(PersonService.class.getName());
 
     @Autowired
     private PersonRepository repository;
 
-    public Person findById(long id){
+    public PersonVO findById(long id){
         logger.info("Finding one person.");
 
-        return repository.findById(id)
+        var entity = repository
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for provided ID."));
+
+
+        return Mapper.parseObject(entity, PersonVO.class);
     }
 
-    public List<Person> findAll(){
+    public List<PersonVO> findAll(){
         logger.info("Finding all people.");
 
-        return repository.findAll();
+        return Mapper.parseObjects(repository.findAll(), PersonVO.class);
     }
 
-    public Person create(Person person){
+    public PersonVO create(PersonVO person){
         logger.info("Creating person.");
 
-        return repository.save(person);
+        var entity = Mapper.parseObject(person, Person.class);
+
+        return Mapper.parseObject(repository.save(entity), PersonVO.class);
     }
 
-    public Person update(Person person){
+    public PersonVO update(PersonVO person){
         logger.info("Updating person.");
 
-        var savedPerson = findById(person.getId());
+        var entity = Mapper.parseObject(findById(person.getId()), Person.class);
 
-        savedPerson.setFirstName(person.getFirstName());
-        savedPerson.setLastName(person.getLastName());
-        savedPerson.setAddress(person.getAddress());
-        savedPerson.setGender(person.getGender());
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
 
-        return repository.save(person);
+        return Mapper.parseObject(repository.save(entity), PersonVO.class);
     }
 
     public void delete(long id){
 
         logger.info("Deleting person " + id);
 
-        var person = findById(id);
+        var person = Mapper.parseObject(findById(id), Person.class);
 
         repository.delete(person);
     }
