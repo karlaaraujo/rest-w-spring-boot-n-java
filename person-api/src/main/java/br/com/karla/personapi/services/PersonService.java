@@ -19,7 +19,7 @@ public class PersonService {
     private PersonRepository repository;
 
     public PersonVO findById(long id){
-        logger.info("Finding one person.");
+        logger.info("Finding a person...");
 
         var entity = repository
                 .findById(id)
@@ -30,21 +30,29 @@ public class PersonService {
     }
 
     public List<PersonVO> findAll(){
-        logger.info("Finding all people.");
+        logger.info("Returning all people...");
 
         return Mapper.parseObjects(repository.findAll(), PersonVO.class);
     }
 
     public PersonVO create(PersonVO person){
-        logger.info("Creating person.");
+        logger.info("Creating a person...");
 
         var entity = Mapper.parseObject(person, Person.class);
 
         return Mapper.parseObject(repository.save(entity), PersonVO.class);
     }
 
+    public br.com.karla.personapi.data.vo.v2.PersonVO create(br.com.karla.personapi.data.vo.v2.PersonVO person){
+        logger.info("Creating a person...");
+
+        var entity = Mapper.parseObject(person, Person.class);
+
+        return Mapper.parseObject(repository.save(entity), br.com.karla.personapi.data.vo.v2.PersonVO.class);
+    }
+
     public PersonVO update(PersonVO person){
-        logger.info("Updating person.");
+        logger.info("Updating a person...");
 
         var entity = Mapper.parseObject(findById(person.getId()), Person.class);
 

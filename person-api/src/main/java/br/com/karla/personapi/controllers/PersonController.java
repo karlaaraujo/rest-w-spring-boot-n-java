@@ -41,6 +41,16 @@ public class PersonController {
         return service.create(person);
     }
 
+    @PostMapping(value = "/v2",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public br.com.karla.personapi.data.vo.v2.PersonVO create(
+            @RequestBody br.com.karla.personapi.data.vo.v2.PersonVO person
+    ) throws Exception {
+        return service.create(person);
+    }
+
 
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
