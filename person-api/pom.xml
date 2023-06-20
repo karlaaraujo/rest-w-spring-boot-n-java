@@ -33,6 +33,20 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
+
 		<!-- Mapeamento e conversão entre objetos -->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
