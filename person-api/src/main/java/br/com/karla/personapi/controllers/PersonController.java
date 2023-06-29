@@ -20,7 +20,7 @@ public class PersonController {
             value = "/{id}",
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
     ) // Swagger exige que 'produces' seja mantido para documentar efetivamente
-    public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
+    public PersonVO findById(@PathVariable(value = "id") Long id) {
 
         return service.findById(id);
     }
@@ -29,7 +29,7 @@ public class PersonController {
             value = "/all",
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
     )
-    public List<PersonVO> findAll() throws Exception {
+    public List<PersonVO> findAll()  {
         return service.findAll();
     }
 
@@ -37,7 +37,7 @@ public class PersonController {
             consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
     )
-    public PersonVO create(@RequestBody PersonVO person) throws Exception {
+    public PersonVO create(@RequestBody PersonVO person)  {
         return service.create(person);
     }
 
@@ -47,7 +47,7 @@ public class PersonController {
     )
     public br.com.karla.personapi.data.vo.v2.PersonVO create(
             @RequestBody br.com.karla.personapi.data.vo.v2.PersonVO person
-    ) throws Exception {
+    )  {
         return service.create(person);
     }
 
@@ -56,13 +56,13 @@ public class PersonController {
             consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
     )
-    public PersonVO update(@RequestBody PersonVO person) throws Exception {
+    public PersonVO update(@RequestBody PersonVO person)  {
         return service.update(person);
     }
 
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
