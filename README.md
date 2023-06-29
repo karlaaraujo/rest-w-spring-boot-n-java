@@ -1,10 +1,13 @@
-# RestFUL Spring Boot APIs
+# RESTful Spring Boot APIs
 
 ## calculator-api
-Provides sum, subtraction, multiplication, division, average and square root operations.
+Provides the mathematical operations of sum, subtraction, multiplication,
+division, average and square root.
+
+
 
 ## greeting-api
 Provides a greeting.
 
 ## person-api
-Provides CRUD operations for people.
+Provides CRUD operations on a database of people.
